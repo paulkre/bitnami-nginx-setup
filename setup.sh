@@ -45,10 +45,9 @@ then
   source setup-https.sh
 fi
 
-echo "> The server has to finish the setup. Do you want to reboot the server now? (y/n)"
+echo "> The server has to restart to finish the setup. Do you want to reboot the server now? (y/n)"
 read REBOOT_SERVER
-if [[ $REBOOT_SERVER =~ ^[yY]$ ]]
+if [ $REBOOT_SERVER =~ ^[yY]$ ]
 then
-  echo "> Rebooting the server"
   sudo reboot
 fi
