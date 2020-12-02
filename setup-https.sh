@@ -22,9 +22,11 @@ sudo /opt/bitnami/ctlscript.sh stop
 sudo /opt/bitnami/letsencrypt/lego --tls --email=""$EMAIL"" --domains=""$DOMAIN"" --path="/opt/bitnami/letsencrypt" run
 
 echo "> Configuring NGINX to use the Let's Encrypt certificate"
+set +e
 sudo mv /opt/bitnami/nginx/conf/bitnami/certs/server.crt /opt/bitnami/nginx/conf/bitnami/certs/server.crt.old
 sudo mv /opt/bitnami/nginx/conf/bitnami/certs/server.key /opt/bitnami/nginx/conf/bitnami/certs/server.key.old
 sudo mv /opt/bitnami/nginx/conf/bitnami/certs/server.csr /opt/bitnami/nginx/conf/bitnami/certs/server.csr.old
+set -e
 sudo ln -sf /opt/bitnami/letsencrypt/certificates/$DOMAIN.key /opt/bitnami/nginx/conf/bitnami/certs/server.key
 sudo ln -sf /opt/bitnami/letsencrypt/certificates/$DOMAIN.crt /opt/bitnami/nginx/conf/bitnami/certs/server.crt
 sudo chown root:root /opt/bitnami/nginx/conf/bitnami/certs/server*
@@ -35,12 +37,13 @@ sudo /opt/bitnami/ctlscript.sh start
 echo "> Registering CRON job to renew certificate periodically"
 
 sudo mkdir -p /opt/bitnami/letsencrypt/scripts
-sudo echo "#!/bin/bash
+sudo touch /opt/bitnami/letsencrypt/scripts/renew-certificate.sh
+echo "#!/bin/bash
 
 sudo /opt/bitnami/ctlscript.sh stop nginx
 sudo /opt/bitnami/letsencrypt/lego --tls --email="$EMAIL" --domains="$DOMAIN" --path="/opt/bitnami/letsencrypt" renew --days 90
 sudo /opt/bitnami/ctlscript.sh start nginx
-" > /opt/bitnami/letsencrypt/scripts/renew-certificate.sh
+" | sudo tee /opt/bitnami/letsencrypt/scripts/renew-certificate.sh > /dev/null
 sudo chmod +x /opt/bitnami/letsencrypt/scripts/renew-certificate.sh
 
 (crontab -l 2>/dev/null; echo "0 0 1 * * /opt/bitnami/letsencrypt/scripts/renew-certificate.sh 2> /dev/null") | crontab -
