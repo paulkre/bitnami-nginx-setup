@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "> Starting setup process"
 
 echo "> Installing Node.js"

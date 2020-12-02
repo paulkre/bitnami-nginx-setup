@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "> Setting up HTTPS"
 
 read -p "> Enter the domain pointing to this instance (or q to abort): " DOMAIN
