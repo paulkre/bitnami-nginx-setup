@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "> Starting setup process"
 
 echo "> Installing Node.js"
@@ -41,7 +43,6 @@ echo "> Generating SSH key pair"
 cat /dev/zero | ssh-keygen -q -N ""
 
 read -p "> Do you want to set up HTTPS via Let's Encrypt? (y/n) " HTTPS_SETUP
-# Using this approach: https://docs.bitnami.com/aws/how-to/generate-install-lets-encrypt-ssl/#alternative-approach
 if [ $HTTPS_SETUP =~ ^[yY]$ ]
 then
   source setup-https.sh

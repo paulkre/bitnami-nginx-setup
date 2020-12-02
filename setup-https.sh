@@ -1,9 +1,13 @@
 #!/bin/bash
 
+# Using this approach: https://docs.bitnami.com/aws/how-to/generate-install-lets-encrypt-ssl/#alternative-approach
+
+set -e
+
 echo "> Setting up HTTPS"
 
-read -p "> Enter the domain pointing to this instance (or q to abort): " DOMAIN
-read -p "> Enter the email address to be used for Let's Encrypt registration (or q to abort): " EMAIL
+read -p "> Enter the domain pointing to this instance: " DOMAIN
+read -p "> Enter the email address to be used for Let's Encrypt registration: " EMAIL
 
 echo "> Installing HTTPS client"
 cd /tmp
