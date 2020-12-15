@@ -39,9 +39,6 @@ echo 'location / {
 }' > /opt/bitnami/nginx/conf/bitnami/app.conf
 sudo /opt/bitnami/ctlscript.sh restart nginx
 
-echo "> Generating SSH key pair"
-cat /dev/zero | ssh-keygen -q -N ""
-
 read -p "> Do you want to set up HTTPS via Let's Encrypt? (y/n) " HTTPS_SETUP
 if [ $HTTPS_SETUP =~ ^[yY]$ ]
 then
