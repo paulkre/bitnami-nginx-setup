@@ -40,14 +40,14 @@ echo 'location / {
 sudo /opt/bitnami/ctlscript.sh restart nginx
 
 read -p "> Do you want to set up HTTPS via Let's Encrypt? (y/n) " HTTPS_SETUP
-if [ $HTTPS_SETUP =~ ^[yY]$ ]
+if [ $HTTPS_SETUP = 'y' ]
 then
   source setup-https.sh
 fi
 
 echo "> The server has to restart to finish the setup. Do you want to reboot the server now? (y/n)"
 read REBOOT_SERVER
-if [ $REBOOT_SERVER =~ ^[yY]$ ]
+if [ $REBOOT_SERVER = 'y' ]
 then
   sudo reboot
 fi
